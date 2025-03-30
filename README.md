@@ -29,6 +29,7 @@ A DevOps tool to monitor system metrics (CPU, memory, disk, network) on Ubuntu-b
 3. **Run the Setup Script**:
 
    ```bash
+   chmod +x setup.sh
    sudo ./setup.sh
    ```
     - Installs dependencies (python3, pip, sqlite3, etc.).
