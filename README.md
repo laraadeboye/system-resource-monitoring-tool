@@ -73,8 +73,8 @@ sudo netstat -tuln | grep 5000  # Should show 0.0.0.0:5000
 - Logs: Check `/root/monitor/logs/alerts.log` or console for errors.
 
 ## Development
-Repo: Part of **multicloud-devops-ai-projects** as a submodule.
-Contribute: Fork, update, and submit a PR to enhance metrics, visuals, or alerting.
+- Repo: Part of **multicloud-devops-ai-projects** as a submodule.
+- Contribute: Fork, update, and submit a PR to enhance metrics, visuals, or alerting.
 
 ## License
 [MIT License](LICENSE)
