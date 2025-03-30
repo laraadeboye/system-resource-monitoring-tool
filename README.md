@@ -37,6 +37,8 @@ A DevOps tool to monitor system metrics (CPU, memory, disk, network) on Ubuntu-b
     - Copies monitor.py and dashboard.html to /root/monitor/.
     - Starts the monitoring tool.
 
+   To stop the tool, cancel it by pressing `ctrl + C` on the keyboard
+
 ## Usage
 - **Web Dashboard**: Access at `http://<your-ec2-public-ip>:5000/` (e.g., http://100.26.184.15:5000/).
 - **Static Plots**: View graphs at `/root/monitor/graphs/metrics_plot.png` (updated every 30s).
