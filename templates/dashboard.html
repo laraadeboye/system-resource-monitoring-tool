@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Monitoring Dashboard</title>
+    <script src="https://cdn.plot.ly/plotly-3.0.1.min.js"></script>
+    <script>
+        async function fetchMetrics() {
+            const response = await fetch('/metrics');
+            const data = await response.json();
+            console.log("Metrics data:", data);
+            
+            if (data.length > 0) {
+                let timestamps = data.map(entry => entry.timestamp);
+                let cpuUsage = data.map(entry => entry.cpu_usage);
+                let memoryUsage = data.map(entry => entry.memory_usage);
+                let diskRead = data.map(entry => entry.disk_read);
+                let diskWrite = data.map(entry => entry.disk_write);
+                let networkSent = data.map(entry => entry.network_sent);
+                let networkRecv = data.map(entry => entry.network_received);
+                
+                // Debug: Check for valid data
+                console.log("CPU:", cpuUsage);
+                console.log("Memory:", memoryUsage);
+                console.log("Disk Read:", diskRead);
+                console.log("Disk Write:", diskWrite);
+                console.log("Network Sent:", networkSent);
+                console.log("Network Recv:", networkRecv);
+
+                let traces = [
+                    { x: timestamps, y: cpuUsage, type: 'scatter', mode: 'lines+markers', name: 'CPU Usage (%)', yaxis: 'y1', line: { width: 2 }, marker: { size: 6} },
+                    { x: timestamps, y: memoryUsage, type: 'scatter', mode: 'lines+markers', name: 'Memory Usage (%)', yaxis: 'y1', line: { width: 2 }, marker: { size: 6} },
+                    { x: timestamps, y: diskRead, type: 'scatter', mode: 'lines+markers', name: 'Disk Read (MB)', yaxis: 'y2', line: { width: 2 }, marker: { size: 6} },
+                    { x: timestamps, y: diskWrite, type: 'scatter', mode: 'lines+markers', name: 'Disk Write (MB)', yaxis: 'y2', line: { width: 2 }, marker: { size: 6} },
+                    { x: timestamps, y: networkSent, type: 'scatter', mode: 'lines+markers', name: 'Network Sent (MB)', yaxis: 'y2', line: { width: 2 }, marker: { size: 6} },
+                    { x: timestamps, y: networkRecv, type: 'scatter', mode: 'lines+markers', name: 'Network Received (MB)', yaxis: 'y2', line: { width: 2 }, marker: { size: 6} }
+                ];
+                
+                                        
+
+                let layout = {
+                    title: 'System Monitoring Metrics',
+                    xaxis: { title: 'Time' },
+                    yaxis: { title: 'Usage (%)', side: 'left', range: [0, 100], dtick: 20 },  // CPU/Memory
+                    yaxis2: { title: 'Data (MB)', side: 'right', overlaying: 'y', range: [0, Math.max(...diskRead, ...diskWrite, ...networkSent, ...networkRecv) * 1.1] },  // Disk/Network
+                    legend: { x: 1.1, y: 1 },
+                    margin: { r: 50 }  // Space for right axis
+                };
+
+                Plotly.newPlot('plot', traces, layout);
+            }
+        }
+        
+        setInterval(fetchMetrics, 5000);
+        window.onload = fetchMetrics;
+    </script>
+</head>
+<body>
+    <h1>System Monitoring Dashboard</h1>
+    <div id="plot" style="width: 100%; height: 500px;"></div>
+</body>
+</html>
+
